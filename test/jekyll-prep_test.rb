@@ -18,8 +18,14 @@ describe Jekyll::Prep do
   end
 
   it 'merges data with front matter' do
-    site.pages.each do |page|
+    pages = site.pages.select { |page| page.name != 'index.md' }
+    pages.each do |page|
       assert_instance_of Fixnum, page.data['age']
     end
+  end
+
+  it 'adds items to index page' do
+    page = site.pages.detect { |page| page.name == 'index.md' }
+    assert page.data['items'].count == 2
   end
 end

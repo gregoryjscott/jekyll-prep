@@ -13,7 +13,7 @@ module Jekyll
         files.each do |file|
           data = YAML.load_file(file)
           data = update_item site, file, data
-          # update_index site, file, data unless file == '_data/index.yml'
+          update_index site, file, data unless file == '_data/index.yml'
         end
       end
     end
@@ -39,7 +39,7 @@ module Jekyll
 
     def update_index(site, file, data)
       resource = file.match(/_data\/(?<resource>.+)\//)[1]
-      page.data['resource_name'] = resource
+      # page.data['resource_name'] = resource
 
       # Add array of items to index page.
       path = resource + '/index.md'
