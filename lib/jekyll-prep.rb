@@ -8,14 +8,14 @@ module Jekyll
     def generate(site)
 
       # Run everything from the source directory.
-      Dir.chdir(site.source) do
-        files = Dir['_data/**/*.yml']
-        files.each do |file|
-          data = YAML.load_file(file)
-          data = update_item site, file, data
-          update_index site, file, data unless file == '_data/index.yml'
-        end
-      end
+      # Dir.chdir(site.source) do
+      #   files = Dir['_data/**/*.yml']
+      #   files.each do |file|
+      #     data = YAML.load_file(file)
+      #     data = update_item site, file, data
+      #     update_index site, file, data unless file == '_data/index.yml'
+      #   end
+      # end
     end
 
     def update_item(site, file, data)
