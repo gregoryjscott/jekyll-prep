@@ -17,6 +17,9 @@ describe Jekyll::Prep do
     site.process
   end
 
-  it 'does nothing' do
+  it 'merges data with front matter' do
+    site.pages.each do |page|
+      assert_instance_of Fixnum, page.data['age']
+    end
   end
 end
