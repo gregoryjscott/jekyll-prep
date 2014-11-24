@@ -1,7 +1,7 @@
 require 'jekyll-prep'
 require 'minitest/autorun'
 
-describe Jekyll::Prep do
+describe 'Prep' do
 
   let(:config) do
     Jekyll.configuration({
@@ -25,7 +25,7 @@ describe Jekyll::Prep do
     end
   end
 
-  it 'adds items to index' do
+  it 'adds items to index pages' do
     page = site.pages.detect { |page| page.path == 'index.md' }
     assert_equal 1, page.data['items'].count
 
@@ -40,5 +40,15 @@ describe Jekyll::Prep do
         assert_instance_of String, item['url']
       end
     end
+  end
+
+  it 'runs scripts for item pages' do
+    page = site.pages.detect { |page| page.path == 'people/jill.md' }
+    assert_equal true, page.data['prepared']
+  end
+
+  it 'runs scripts for index pages' do
+    page = site.pages.detect { |page| page.path == 'people/index.md' }
+    assert_equal true, page.data['prepared']
   end
 end

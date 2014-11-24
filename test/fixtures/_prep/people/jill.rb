@@ -2,7 +2,7 @@ module Prep
 
   module People
 
-    class Index < Jekyll::PrepScript
+    class Jill < Jekyll::PrepScript
 
       def prepare(page)
         page.data['prepared'] = true
