@@ -1,4 +1,3 @@
-require 'find'
 require 'jekyll'
 
 module Jekyll
@@ -6,7 +5,7 @@ module Jekyll
   class PrepScript < Jekyll::Plugin
   end
 
-  class PrepGenerator < Jekyll::Generator
+  class LoadGenerator < Jekyll::Generator
 
     def generate(site)
       @site = site
@@ -14,10 +13,8 @@ module Jekyll
       Dir.chdir(@site.source) do
 
         @data_files = Dir[File.join('_data', '**', '*.yml')]
-        @script_files = Dir[File.join('_prep', '**', '*.rb')]
 
         load_data
-        run_scripts
       end
     end
 
@@ -26,17 +23,6 @@ module Jekyll
         data = YAML.load_file(data_file)
         data = merge_data data_file, data
         add_to_index data_file, data unless is_index data_file
-      end
-    end
-
-    def run_scripts
-      require_scripts
-      scripts = instantiate_scripts
-
-      @site.pages.each do |page|
-        namespace = 'prep::' + page.path.gsub('/', '::').gsub('.md', '')
-        script = scripts.detect { |script| script.class.to_s.downcase == namespace }
-        script.prepare page unless script.nil?
       end
     end
 
@@ -63,6 +49,31 @@ module Jekyll
 
     def is_index(data_file)
       data_file.end_with? 'index.yml'
+    end
+  end
+
+  class PrepGenerator < Jekyll::Generator
+
+    def generate(site)
+      @site = site
+
+      Dir.chdir(@site.source) do
+
+        @script_files = Dir[File.join('_prep', '**', '*.rb')]
+
+        run_scripts
+      end
+    end
+
+    def run_scripts
+      require_scripts
+      scripts = instantiate_scripts
+
+      @site.pages.each do |page|
+        namespace = 'prep::' + page.path.gsub('/', '::').gsub('.md', '')
+        script = scripts.detect { |script| script.class.to_s.downcase == namespace }
+        script.prepare page unless script.nil?
+      end
     end
 
     def require_scripts
