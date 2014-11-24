@@ -12,10 +12,12 @@ module Jekyll
         files.each do |file|
           data = YAML.load_file(file)
           data = merge_data file, data
-          add_to_index_items file, data unless file == '_data/index.yml'
+          add_to_index file, data unless is_index file
         end
       end
     end
+
+    private
 
     def merge_data(file, data)
       path = file.gsub('_data/', '').gsub('.yml', '.md')
@@ -25,12 +27,21 @@ module Jekyll
       page.data
     end
 
-    def add_to_index_items(file, data)
-      resource = file.match(/_data\/(?<resource>.+)\//)[1]
-      path = resource + '/index.md'
-      page = @site.pages.detect { |page| page.path == path }
+    def add_to_index(file, data)
+      page = find_corresponding_index file
       page.data['items'] = [] if page.data['items'].nil?
       page.data['items'].push data
+    end
+
+    def find_corresponding_index(file)
+      path = 'index.md'
+      nesting = file.match(/_data\/(?<resource>.+)\//)
+      path = File.join nesting[1], path unless nesting.nil?
+      page = @site.pages.detect { |page| page.path == path }
+    end
+
+    def is_index(file)
+      file.end_with? 'index.yml'
     end
   end
 end

@@ -1,4 +1,5 @@
 ---
+front matter: this is front matter
 ---
 
 {% for person in page.items %}
