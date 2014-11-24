@@ -28,4 +28,11 @@ describe Jekyll::Prep do
     page = site.pages.detect { |page| page.name == 'index.md' }
     assert page.data['items'].count == 2
   end
+
+  it 'adds url to data items' do
+    page = site.pages.detect { |page| page.name == 'index.md' }
+    page.data['items'].each do |item|
+      assert_instance_of String, item['url']
+    end
+  end
 end

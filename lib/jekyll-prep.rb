@@ -21,6 +21,7 @@ module Jekyll
       path = file.gsub('_data/', '').gsub('.yml', '.md')
       page = @site.pages.detect { |page| page.path == path }
       page.data.merge! data
+      page.data['url'] = page.url
       page.data
     end
 
