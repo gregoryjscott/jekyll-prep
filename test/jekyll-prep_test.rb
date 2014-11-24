@@ -6,7 +6,6 @@ describe Jekyll::Prep do
   let(:config) do
     Jekyll.configuration({
       'source' => 'test/fixtures',
-      'destination' => '_tmp',
       'permalink' => 'pretty',
       'quiet' => true
     })
