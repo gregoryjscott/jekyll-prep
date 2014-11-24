@@ -1,4 +1,4 @@
-desc 'Test it'
+desc 'Run tests'
 task :test do
   system 'ruby -Ilib test/jekyll-prep_test.rb'
 end
