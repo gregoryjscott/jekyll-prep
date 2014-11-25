@@ -17,9 +17,8 @@ module Jekyll
       prep_instances = instantiate_prep
 
       @site.pages.each do |page|
-        namespace = 'prep::' + page.path.gsub('/', '::').gsub('.md', '')
-        prep = prep_instances.detect { |script| script.class.to_s.downcase == namespace }
-        prep.prepare page unless prep.nil?
+        prep = find_prep(page, prep_instances)
+        prep.prepare(page) unless prep.nil?
       end
     end
 
@@ -33,6 +32,18 @@ module Jekyll
 
     def instantiate_prep
       @site.instantiate_subclasses(Jekyll::Prep)
+    end
+
+    def find_prep(page, prep_instances)
+      namespace = 'prep'
+
+      path = File.dirname(page.path).gsub(File::SEPARATOR, '::')
+      namespace << "::#{path}" unless path == '.'
+
+      class_name = File.basename(page.path, '.*')
+      namespace << "::#{class_name}"
+
+      prep_instances.detect { |prep| prep.class.to_s.downcase == namespace }
     end
   end
 end
