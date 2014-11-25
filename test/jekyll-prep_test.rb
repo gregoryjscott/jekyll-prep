@@ -17,28 +17,18 @@ describe 'Prep' do
     site.process
   end
 
-  it 'prepares root index page' do
+  it 'prepares pages' do
     page = site.pages.detect { |page| page.path == 'index.md' }
-    assert_equal true, page.data['prepared']
-  end
-
-  it 'prepares root pages' do
-    page = site.pages.detect { |page| page.path == 'about.md' }
-    assert_equal true, page.data['prepared']
-  end
-
-  it 'prepares nested index page' do
-    page = site.pages.detect { |page| page.path == 'people/index.md' }
-    assert_equal true, page.data['prepared']
+    assert page.data['prepared']
   end
 
   it 'prepares nested pages' do
     page = site.pages.detect { |page| page.path == 'people/jill.md' }
-    assert_equal true, page.data['prepared']
+    assert page.data['prepared']
   end
 
   it 'leaves other pages alone' do
     page = site.pages.detect { |page| page.path == 'people/jack.md' }
-    assert_equal false, page.data['prepared']
+    assert_nil page.data['prepared']
   end
 end
