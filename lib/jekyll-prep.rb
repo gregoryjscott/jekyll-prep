@@ -2,42 +2,37 @@ require 'jekyll'
 
 module Jekyll
 
-  class PrepScript < Jekyll::Plugin
+  class Prep < Jekyll::Plugin
   end
 
   class PrepGenerator < Jekyll::Generator
 
     def generate(site)
       @site = site
-
-      Dir.chdir(@site.source) do
-
-        @script_files = Dir[File.join('_prep', '**', '*.rb')]
-
-        run_scripts
-      end
+      Dir.chdir(@site.source) { prepare_pages }
     end
 
-    def run_scripts
-      require_scripts
-      scripts = instantiate_scripts
+    def prepare_pages
+      require_files
+      prep_instances = instantiate_prep
 
       @site.pages.each do |page|
         namespace = 'prep::' + page.path.gsub('/', '::').gsub('.md', '')
-        script = scripts.detect { |script| script.class.to_s.downcase == namespace }
-        script.prepare page unless script.nil?
+        prep = prep_instances.detect { |script| script.class.to_s.downcase == namespace }
+        prep.prepare page unless prep.nil?
       end
     end
 
-    def require_scripts
-      @script_files.each do |script|
+    def require_files
+      files = Dir[File.join('_prep', '**', '*.rb')]
+      files.each do |script|
         path = File.expand_path(script)
         require path
       end
     end
 
-    def instantiate_scripts
-      @site.instantiate_subclasses(Jekyll::PrepScript)
+    def instantiate_prep
+      @site.instantiate_subclasses(Jekyll::Prep)
     end
   end
 end
