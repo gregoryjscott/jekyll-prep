@@ -1,4 +1,4 @@
-require 'jekyll-prep'
+require 'jekyll/prep'
 require 'minitest/autorun'
 
 describe 'Prep' do
@@ -6,7 +6,6 @@ describe 'Prep' do
   let(:config) do
     Jekyll.configuration({
       'source' => 'test/fixtures',
-      'permalink' => 'pretty',
       'quiet' => true
     })
   end

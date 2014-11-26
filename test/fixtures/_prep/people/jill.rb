@@ -2,7 +2,7 @@ module Prep
 
   module People
 
-    class Jill < Jekyll::Prep
+    class Jill < Jekyll::Prep::Script
 
       def prepare(page)
         page.data['prepared'] = true
