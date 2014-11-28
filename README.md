@@ -14,6 +14,8 @@ See [Jekyll's documentation for installing Jekyll plugins](http://jekyllrb.com/d
 4. Inside the prepare methods, do whatever you want to `page.data`.
 
 ```ruby
+# _prep/people/jill.rb
+
 module Prep
 
   module People
