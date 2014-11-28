@@ -1,9 +1,7 @@
 require 'jekyll'
 
 module Jekyll
-
   module Prep
-
     class Runner < Jekyll::Generator
 
       def generate(site)
@@ -44,6 +42,7 @@ module Jekyll
 
         scripts.detect { |script| script.class.to_s.downcase == namespace }
       end
+
     end
   end
 end

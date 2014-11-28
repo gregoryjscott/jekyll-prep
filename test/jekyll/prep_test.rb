@@ -30,4 +30,5 @@ describe 'Prep' do
     page = site.pages.detect { |page| page.path == 'people/jack.md' }
     assert_nil page.data['prepared']
   end
+
 end
