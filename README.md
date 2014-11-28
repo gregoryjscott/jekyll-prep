@@ -1,26 +1,32 @@
 # Jekyll::Prep
 
-TODO: Write a gem description
+Prepare Jekyll page data using Ruby.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'jekyll-prep'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install jekyll-prep
+See [Jekyll's documentation for installing Jekyll plugins](http://jekyllrb.com/docs/plugins/#installing-a-plugin).
 
 ## Usage
 
-TODO: Write usage instructions here
+1. Create a `_prep` directory in your Jekyll project.
+2. Inside the `_prep` directory, create `.rb` files that correspond to your `.md` Jekyll pages. For example, if you have a `/people/jill.md` Jekyll page then create a `_prep/people/jill.rb` file.
+3. Inside the `.rb` files, define subclasses of `Jekyll::Prep::Script` that define a `prepare` method, which receives an instance of Jekyll::Page. Namespaces must correspond to the filenames (minus the leading underscore on Prep). For example, the file `_prep/people/jill.rb` should contain `Prep::People::Jill`.
+4. Inside the prepare method, do whatever you want to the `page.data`.
+
+```ruby
+module Prep
+
+  module People
+
+    class Jill < Jekyll::Prep::Script
+
+      def prepare(page)
+        page.data['something new'] = 'was added during prep'
+      end
+    end
+  end
+end
+```
 
 ## Contributing
 

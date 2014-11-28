@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Jekyll::Prep::VERSION
   spec.authors       = ['Greg Scott']
   spec.email         = ['i@gregoryjscott.com']
-  spec.summary       = %q{Prepare your Jekyll pages with Ruby.}
+  spec.summary       = %q{Prepare Jekyll page data using Ruby.}
   spec.homepage      = 'https://github.com/gregoryjscott/jekyll-prep'
   spec.license       = 'MIT'
 
