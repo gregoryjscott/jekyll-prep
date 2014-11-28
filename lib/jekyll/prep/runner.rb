@@ -13,27 +13,27 @@ module Jekyll
 
       def prepare_pages
         require_files
-        prep_instances = instantiate_prep
+        scripts = instantiate_scripts
 
         @site.pages.each do |page|
-          prep = find_prep(page, prep_instances)
-          prep.prepare(page) unless prep.nil?
+          script = find_script(page, scripts)
+          script.prepare(page) unless script.nil?
         end
       end
 
       def require_files
         files = Dir[File.join('_prep', '**', '*.rb')]
-        files.each do |script|
-          path = File.expand_path(script)
+        files.each do |file|
+          path = File.expand_path(file)
           require path
         end
       end
 
-      def instantiate_prep
+      def instantiate_scripts
         @site.instantiate_subclasses(Jekyll::Prep::Script)
       end
 
-      def find_prep(page, prep_instances)
+      def find_script(page, scripts)
         namespace = 'prep'
 
         path = File.dirname(page.path).gsub(File::SEPARATOR, '::')
@@ -42,7 +42,7 @@ module Jekyll
         class_name = File.basename(page.path, '.*')
         namespace << "::#{class_name}"
 
-        prep_instances.detect { |prep| prep.class.to_s.downcase == namespace }
+        scripts.detect { |script| script.class.to_s.downcase == namespace }
       end
     end
   end
