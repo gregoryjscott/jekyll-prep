@@ -12,9 +12,7 @@ describe 'Prep' do
 
   let(:site) { Jekyll::Site.new(config) }
 
-  before(:each) do
-    site.process
-  end
+  before(:each) { site.process }
 
   it 'prepares pages' do
     page = site.pages.detect { |page| page.path == 'index.md' }

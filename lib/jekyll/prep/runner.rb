@@ -1,5 +1,3 @@
-require 'jekyll'
-
 module Jekyll
   module Prep
     class Runner < Jekyll::Generator
